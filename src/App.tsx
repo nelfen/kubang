@@ -1,8 +1,20 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { MainLayout } from "@/components/layout/MainLayout";
+import Home from "@/pages/Home";
+import About from "@/pages/About";
+import NotFound from "@/pages/NotFound";
+
 function App() {
   return (
-    <div className="min-h-screen bg-white">
-      <h1 className="text-3xl font-bold text-center p-10">색동규방</h1>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+        </Route>
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
