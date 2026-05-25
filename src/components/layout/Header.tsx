@@ -8,7 +8,7 @@ const NAV_ITEMS = [
     path: "/about",
     sub: ["인삿말", "사회적기업", "연혁", "조직도", "찾아오시는길"],
   },
-  { label: "규방", path: "/kubang", sub: ["규방소개", "문화기획"] },
+  { label: "규방", path: "/kyubang", sub: ["규방소개", "문화기획"] },
   { label: "주요상품", path: "/products", sub: [] },
   { label: "커뮤니티", path: "/community", sub: [] },
 ];
