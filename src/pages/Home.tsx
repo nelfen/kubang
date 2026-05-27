@@ -140,7 +140,7 @@ export default function Home() {
 
       {/* 주요 상품 섹션 */}
       <section id="products" className="w-full py-20 scroll-mt-20">
-        <div className="max-w-360 mx-auto px-10">
+        <div className="max-w-360 mx-auto px-28 xl:px-20 2xl:px-10">
           {/* 타이틀 */}
           <div className="text-center mb-10">
             <h2 className="text-2xl font-bold text-gray-900">주요 상품</h2>
