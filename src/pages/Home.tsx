@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/cn";
 
 const SLIDES = [
@@ -8,8 +8,8 @@ const SLIDES = [
     tag: "색동규방 대표상품",
     title: "전통의 빛을 담은\n호롱 등불",
     desc: "우리 고유의 아름다움을 일상 속에\n정성을 담아 만든 전통 공예품",
-    bg: "#f5f0eb",
-    theme: "light" as "light" | "dark",
+    img: "/src/assets/main_banner_img1.png",
+    theme: "dark" as "light" | "dark",
     link: "/products",
   },
   {
@@ -17,21 +17,51 @@ const SLIDES = [
     tag: "색동규방 추천",
     title: "색동의 아름다움\n규방 공예",
     desc: "오랜 전통 기법으로 만든\n색동규방의 손길이 담긴 작품들",
-    bg: "#2c2c2c",
+    img: "/src/assets/main_banner_img2.png",
     theme: "dark" as "light" | "dark",
     link: "/kyubang",
   },
 ];
 
-const CATEGORIES = ["전체", "조명", "공예", "장식", "소품"];
+const CATEGORIES = ["전체", "등불", "공예", "장식", "소품"];
 
 const PRODUCTS = [
-  { id: 1, name: "호롱 등불 (소)", price: "35,000원", category: "조명" },
-  { id: 2, name: "색동 파우치", price: "18,000원", category: "규방공예" },
-  { id: 3, name: "전통 매듭 노리개", price: "25,000원", category: "장식" },
-  { id: 4, name: "한지 조명 갓", price: "48,000원", category: "조명" },
-  { id: 5, name: "색동 열쇠고리", price: "12,000원", category: "소품" },
-  { id: 6, name: "규방 바느질 세트", price: "32,000원", category: "규방공예" },
+  {
+    id: 1,
+    name: "청사초롱 (태극)",
+    price: "35,000원",
+    category: "등불",
+    img: "/src/assets/item_img1.png",
+  },
+  {
+    id: 2,
+    name: "색동 두루주머니",
+    price: "18,000원",
+    category: "장식",
+    img: "/src/assets/item_img2.png",
+  },
+  {
+    id: 3,
+    name: "전통 반지 & 반지함",
+    price: "25,000원",
+    category: "소품",
+    img: "/src/assets/item_img3.png",
+  },
+  { id: 4, name: "한지 조명 갓", price: "48,000원", category: "조명", img: "" },
+  {
+    id: 5,
+    name: "색동 열쇠고리",
+    price: "12,000원",
+    category: "소품",
+    img: "",
+  },
+  {
+    id: 6,
+    name: "규방 바느질 세트",
+    price: "32,000원",
+    category: "공예",
+    img: "",
+  },
 ];
 
 export default function Home() {
@@ -40,6 +70,19 @@ export default function Home() {
   const slide = SLIDES[current];
   const isLight = slide.theme === "light";
   const [selectedCategory, setSelectedCategory] = useState("전체");
+
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state?.scrollTo === "products") {
+      // 페이지 렌더링 후 스크롤되도록 약간의 딜레이
+      setTimeout(() => {
+        document
+          .getElementById("products")
+          ?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    }
+  }, [location.state]);
 
   const filteredProducts =
     selectedCategory === "전체"
@@ -67,9 +110,14 @@ export default function Home() {
       {/* 히어로 슬라이더 */}
       <section
         className="relative w-full h-[600px] overflow-hidden transition-colors duration-700 cursor-pointer"
-        style={{ backgroundColor: slide.bg }}
         onClick={() => navigate(slide.link)}
       >
+        <img
+          src={slide.img}
+          alt={slide.tag}
+          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-700"
+        />
+        <div className="absolute inset-0 bg-black/30" />
         <div className="max-w-360 mx-auto px-10 h-full flex items-center">
           {/* 텍스트 */}
           <div className="flex flex-col gap-4 z-10">
@@ -150,16 +198,16 @@ export default function Home() {
           </div>
 
           {/* 카테고리 탭 */}
-          <div className="flex gap-2 mb-4">
+          <div className="flex mb-4">
             {CATEGORIES.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
                 className={cn(
-                  "px-5 py-2 text-sm font-medium border transition-colors",
+                  "px-5 py-2 text-sm font-medium border-t border-l last:border-r border-b-0 transition-colors",
                   selectedCategory === cat
                     ? "bg-gray-900 text-white border-gray-900"
-                    : "bg-white text-gray-600 border-gray-300 hover:border-gray-900 hover:text-gray-900",
+                    : "bg-white text-gray-600 border-gray-300 hover:text-gray-900",
                 )}
               >
                 {cat}
@@ -171,8 +219,18 @@ export default function Home() {
           <div className="grid grid-cols-3 gap-8">
             {filteredProducts.map((product) => (
               <div key={product.id} className="group cursor-pointer">
-                <div className="w-full aspect-square bg-gray-100 flex items-center justify-center text-gray-300 text-sm mb-4 group-hover:bg-gray-200 transition-colors">
-                  상품 이미지
+                <div className="w-full aspect-square bg-gray-100 mb-4 overflow-hidden">
+                  {product.img ? (
+                    <img
+                      src={product.img}
+                      alt={product.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-gray-300 text-sm">
+                      상품 이미지
+                    </div>
+                  )}
                 </div>
                 <div className="flex flex-col gap-1">
                   <span className="text-xs text-gray-400">

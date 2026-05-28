@@ -6,9 +6,23 @@ const NAV_ITEMS = [
   {
     label: "회사소개",
     path: "/about",
-    sub: ["인삿말", "사회적기업", "연혁", "조직도", "찾아오시는길"],
+    sub: [
+      { label: "인사말", tab: "인사말" },
+      { label: "사회적기업", tab: "사회적기업" },
+      { label: "연혁", tab: "연혁" },
+      { label: "조직도", tab: "조직도" },
+      { label: "찾아오시는길", tab: "찾아오시는길" },
+    ],
   },
-  { label: "규방", path: "/kyubang", sub: ["규방소개", "문화기획"] },
+  {
+    label: "규방",
+    path: "/kyubang",
+    sub: [
+      { label: "규방소개", tab: "규방소개" },
+      { label: "문화기획", tab: "문화기획" },
+      { label: "3자물류", tab: "3자물류" },
+    ],
+  },
   { label: "주요상품", path: "/products", sub: [] },
   { label: "커뮤니티", path: "/community", sub: [] },
 ];
@@ -20,6 +34,8 @@ const NOTICES = [
 ];
 
 export default function Header() {
+  const location = useLocation();
+  const currentTab = location.state?.tab as string | undefined;
   const { pathname } = useLocation();
   const [hoveredNav, setHoveredNav] = useState<string | null>(null);
   const [noticeIndex] = useState(0);
@@ -32,19 +48,22 @@ export default function Header() {
         .getElementById("products")
         ?.scrollIntoView({ behavior: "smooth" });
     } else {
-      navigate("/#products");
+      navigate("/", { state: { scrollTo: "products" } });
     }
+  };
+
+  const handleSubClick = (parentPath: string, tab: string) => {
+    setHoveredNav(null);
+    navigate(parentPath, { state: { tab } });
   };
 
   return (
     <header className="w-full shadow-sm bg-white sticky top-0 z-50">
       {/* 상단 공지 바 */}
       <div className="w-full h-6 bg-[#da4537] flex items-center relative">
-        {/* 공지 텍스트 - 절대 위치로 완전 가운데 */}
         <div className="absolute inset-0 flex items-center justify-center">
           <span className="text-xs text-white">{NOTICES[noticeIndex]}</span>
         </div>
-        {/* 로그인 / 회원가입 - 우측 고정 */}
         <div className="max-w-360 mx-auto px-10 w-full flex items-center justify-end relative z-10">
           <div className="flex items-center gap-1">
             <Link
@@ -63,6 +82,7 @@ export default function Header() {
           </div>
         </div>
       </div>
+
       {/* 메인 헤더 */}
       <div className="max-w-360 mx-auto px-10 h-14 flex items-center justify-between">
         {/* 로고 */}
@@ -103,15 +123,23 @@ export default function Header() {
               )}
 
               {item.sub.length > 0 && hoveredNav === item.path && (
-                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 bg-white border border-gray-100 shadow-lg rounded-sm py-2 min-w-30 z-50">
-                  {item.sub.map((sub) => (
-                    <button
-                      key={sub}
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-600 hover:bg-red-50 hover:text-[#C8372A] transition-colors"
-                    >
-                      {sub}
-                    </button>
-                  ))}
+                <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 z-50">
+                  <div className="bg-white border border-gray-100 shadow-lg rounded-sm py-2 min-w-32">
+                    {item.sub.map((sub) => (
+                      <button
+                        key={sub.tab}
+                        onClick={() => handleSubClick(item.path, sub.tab)}
+                        className={cn(
+                          "block w-full text-left px-4 py-2 text-sm transition-colors",
+                          currentTab === sub.tab
+                            ? "bg-red-50 text-[#C8372A] font-medium"
+                            : "text-gray-600 hover:bg-red-50 hover:text-[#C8372A]",
+                        )}
+                      >
+                        {sub.label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
