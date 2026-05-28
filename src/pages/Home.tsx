@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/cn";
+import { mainBanner1, mainBanner2, item1, item2, item3 } from "@/assets";
 
 const SLIDES = [
   {
@@ -8,7 +9,7 @@ const SLIDES = [
     tag: "색동규방 대표상품",
     title: "전통의 빛을 담은\n호롱 등불",
     desc: "우리 고유의 아름다움을 일상 속에\n정성을 담아 만든 전통 공예품",
-    img: "/src/assets/main_banner_img1.png",
+    img: mainBanner1,
     theme: "dark" as "light" | "dark",
     link: "/products",
   },
@@ -17,7 +18,7 @@ const SLIDES = [
     tag: "색동규방 추천",
     title: "색동의 아름다움\n규방 공예",
     desc: "오랜 전통 기법으로 만든\n색동규방의 손길이 담긴 작품들",
-    img: "/src/assets/main_banner_img2.png",
+    img: mainBanner2,
     theme: "dark" as "light" | "dark",
     link: "/kyubang",
   },
@@ -31,21 +32,21 @@ const PRODUCTS = [
     name: "청사초롱 (태극)",
     price: "35,000원",
     category: "등불",
-    img: "/src/assets/item_img1.png",
+    img: item1,
   },
   {
     id: 2,
     name: "색동 두루주머니",
     price: "18,000원",
     category: "장식",
-    img: "/src/assets/item_img2.png",
+    img: item2,
   },
   {
     id: 3,
     name: "전통 반지 & 반지함",
     price: "25,000원",
     category: "소품",
-    img: "/src/assets/item_img3.png",
+    img: item3,
   },
   { id: 4, name: "한지 조명 갓", price: "48,000원", category: "조명", img: "" },
   {

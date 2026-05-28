@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
+import { introBanner } from "@/assets";
 
 type Tab = "인사말" | "사회적기업" | "연혁" | "조직도" | "찾아오시는길";
 
@@ -80,7 +81,7 @@ export default function About() {
       <div className="max-w-360 mx-auto px-50 xl:px-40 2xl:px-10">
         <div className="relative w-full h-64 overflow-hidden">
           <img
-            src="/src/assets/intro_banner_img.png"
+            src={introBanner}
             alt="회사소개 배너"
             className="w-full h-full object-cover"
           />
