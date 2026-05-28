@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { kyubangBanner } from "@/assets";
 
 type Tab = "규방소개" | "문화기획" | "3자물류";
 
@@ -23,7 +24,7 @@ export default function Kyubang() {
       <div className="max-w-360 mx-auto px-50 xl:px-40 2xl:px-10">
         <div className="relative w-full h-64 overflow-hidden">
           <img
-            src="/src/assets/kyubang_banner_img.png"
+            src={kyubangBanner}
             alt="규방 배너"
             className="w-full h-full object-cover"
           />
